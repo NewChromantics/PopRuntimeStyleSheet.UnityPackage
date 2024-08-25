@@ -1,0 +1,10 @@
+{
+  "name": "com.newchromantics.runtimestylesheet",
+  "version": "0.0.1",
+  "displayName": "PopRuntimeStyleSheet",
+  "description": "Load UIToolkit style sheets at runtime!",
+  "author": {
+    "name": "The New Chromantics",
+    "url": "https://github.com/newChromantics/"
+  }
+}
