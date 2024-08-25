@@ -16,6 +16,18 @@ using URIValidationResult = UnityEditor.UIElements.StyleSheets.URIValidationResu
 enum StyleSheetImportErrorCode
 {
 InvalidSelectorListDelimiter,  
+UnsupportedSelectorFormat,
+RecursiveSelectorDetected,
+MissingFunctionAssignment,
+MissingFunctionArgument,
+InvalidURILocation,
+InvalidURIScheme,
+InvalidURIProjectAssetPath,
+Internal,
+InvalidHighResolutionImage,
+InvalidVarFunction,
+UnsupportedUnit,
+UnsupportedTerm,
 }
 struct StyleSheetImportErrors : IEnumerable<StyleSheetImportError>
 {
@@ -24,6 +36,9 @@ struct StyleSheetImportErrors : IEnumerable<StyleSheetImportError>
   public bool hasWarning => false;
   
   public void AddSyntaxError(string Error,int Line)
+  {
+  }
+  public void AddValidationWarning(string Message,int Line)
   {
   }
 
@@ -52,11 +67,11 @@ internal class StyleSheetImportError
 {
   public string assetPath;
 }
-
+/*
 struct StyleSelectorPart
 {
 }
-
+*/
 class UnityImporterContext
 {
   

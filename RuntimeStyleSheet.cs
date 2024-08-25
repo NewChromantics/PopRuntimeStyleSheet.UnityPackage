@@ -7,8 +7,9 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UIElements.StyleSheets;
-using StyleSheet = UnityEngine.UIElements.StyleSheet;
 
+using StyleSheet = UnityEngine.UIElements.StyleSheet;
+using StyleRule = UnityEngine.UIElements.StyleRule;
 
 static public class RuntimeStyleSheet
 {
@@ -32,8 +33,9 @@ static public class RuntimeStyleSheet
             Debug.Log($"Failed to find empty style sheet resource");
             return null;
         }
-        var AsJson = JsonUtility.ToJson(BaseStyle);
-        var AsFake = JsonUtility.FromJson<FakeStyleSheet>(AsJson);
+        
+        //var AsJson = JsonUtility.ToJson(BaseStyle);
+        //var AsFake = JsonUtility.FromJson<FakeStyleSheet>(AsJson);
 
         var LoadedSpreadSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyle);
         
@@ -41,18 +43,18 @@ static public class RuntimeStyleSheet
         var Importer = new StyleSheetImporterImpl();
         Importer.Import(LoadedSpreadSheet,Css);
         //AsFake = ParseCss(Css);
-        
+        /*
         //  load fake stylesheet as a stylesheet and write over the base one
         var FakeJson = JsonUtility.ToJson(AsFake);
         //var LoadedSpreadSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyle);
         //var LoadedSpreadSheet = CustomStyle; 
         JsonUtility.FromJsonOverwrite(FakeJson,LoadedSpreadSheet);
-        
+        */
         return LoadedSpreadSheet;
     }
     
     //  this should be mostly based on StyleSheetImporterImpl
-    static FakeStyleSheet ParseCss(string Css)
+    static StyleSheet ParseCss(string Css)
     {
         var Parser = new ExCSS.Parser();
         var stylesheet = Parser.Parse(Css);
@@ -60,7 +62,7 @@ static public class RuntimeStyleSheet
         ExCSS.StyleSheet styleSheet = Parser.Parse(Css);
         VisitSheet(styleSheet);
       
-        return new FakeStyleSheet();
+        return new StyleSheet();
     }
     
     static void VisitSheet(ExCSS.StyleSheet styleSheet)
@@ -85,7 +87,7 @@ static public class RuntimeStyleSheet
     }
 }
 
-
+/*
 //  unity internal classes
 [Serializable]
 public struct StylePropertyValue
@@ -111,15 +113,16 @@ public struct StyleProperty
     public StylePropertyValue[] m_Values;
     
 }
-
-
+*/
+/*
 [Serializable]
 public struct StyleRule
 {
     public StyleProperty[]  m_Properties;
     public int              line;
 }
-
+*/
+/*
 
 [Serializable]
 public struct Dimension
@@ -156,13 +159,15 @@ public struct SelectorPart
     public string       m_Value;
     public SelectorType m_Type;
 }
-
+*/
+/*
 [Serializable]
 public struct StyleSelector
 {
     public SelectorPart[]   m_Parts;
     public int  m_PreviousRelationship;
 }
+*/
 /*
 [Serializable]
 public struct StyleComplexSelector
@@ -172,23 +177,18 @@ public struct StyleComplexSelector
     public int ruleIndex;
 }
 */
+
+
+/*
 [Serializable]
-internal struct ScalableImage
+internal class FakeStyleSheetXX
 {
-}
-
-
-
-
-[Serializable]
-internal struct FakeStyleSheet
-{
-    static public FakeStyleSheet Instantiate(StyleSheet Original)
+    static public FakeStyleSheetXX Instantiate(StyleSheet Original)
     {
         throw new NotImplementedException();
     } 
 
-
+    public bool m_IsDefaultStyleSheet;
     public bool m_ImportedWithErrors;
     public bool m_ImportedWithWarnings;
     public StyleRule[] m_Rules;
@@ -198,7 +198,7 @@ internal struct FakeStyleSheet
     public UnityEngine.Color[] colors;
     public string[] strings;
     public UnityEngine.Object[] assets;
-    //public FakeStyleSheet.ImportStruct[] imports;
+    public FakeStyleSheet.ImportStruct[] imports;
     public List<FakeStyleSheet> m_FlattenedImportedStyleSheets;
     public ScalableImage[] scalableImages;
     public int m_ContentHash;
@@ -210,4 +210,61 @@ internal struct FakeStyleSheet
       public FakeStyleSheet styleSheet;
       public string[] mediaQueries;
     }
+    
+    internal StyleRule[] rules
+    {
+      get => this.m_Rules;
+      set
+      {
+        this.m_Rules = value;
+        this.SetupReferences();
+      }
+    }
+
+    internal StyleComplexSelector[] complexSelectors
+    {
+      get => this.m_ComplexSelectors;
+      set
+      {
+        this.m_ComplexSelectors = value;
+        this.SetupReferences();
+      }
+    }
+
+    internal List<StyleSheet> flattenedRecursiveImports => this.m_FlattenedImportedStyleSheets;
+
+    /// <summary>
+    ///        <para>
+    /// A hash value computed from the stylesheet content.
+    /// </para>
+    ///      </summary>
+    public int contentHash
+    {
+      get => this.m_ContentHash;
+      set => this.m_ContentHash = value;
+    }
+
+    internal bool isDefaultStyleSheet
+    {
+      get => this.m_IsDefaultStyleSheet;
+      set
+      {
+        this.m_IsDefaultStyleSheet = value;
+        if (this.flattenedRecursiveImports == null)
+          return;
+        foreach (var flattenedRecursiveImport in this.flattenedRecursiveImports)
+          flattenedRecursiveImport.isDefaultStyleSheet = value;
+      }
+    }
+    
+    void SetupReferences()
+    {
+        throw new NotImplementedException();
+    }
+    
+    public void FlattenImportedStyleSheetsRecursive()
+    {
+        throw new NotImplementedException();
+    }
 }
+*/

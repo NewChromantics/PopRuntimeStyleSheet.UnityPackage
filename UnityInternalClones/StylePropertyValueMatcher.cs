@@ -46,14 +46,14 @@ namespace UnityEngine.UIElements.StyleSheets
         flag = this.Match(exp);
       if (!flag)
       {
-        StyleSheet sheet = this.current.sheet;
+        var sheet = this.current.sheet;
         matchResult.errorCode = MatchResultErrorCode.Syntax;
         throw new NotImplementedException();
         //matchResult.errorValue = sheet.ReadAsString(this.current.handle);
       }
       else if (this.hasCurrent)
       {
-        StyleSheet sheet = this.current.sheet;
+        var sheet = this.current.sheet;
         matchResult.errorCode = MatchResultErrorCode.ExpectedEndOfValue;
         throw new NotImplementedException();
         //matchResult.errorValue = sheet.ReadAsString(this.current.handle);

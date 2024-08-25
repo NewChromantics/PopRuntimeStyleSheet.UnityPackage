@@ -27,7 +27,7 @@ namespace UnityEngine.UIElements.StyleSheets
     private List<StyleSelector> m_CurrentSelectors = new List<StyleSelector>();
     private StyleProperty m_CurrentProperty;
     private StyleRule m_CurrentRule;
-    private List<FakeStyleSheet.ImportStruct> m_Imports = new ();
+    private List<StyleSheet.ImportStruct> m_Imports = new ();
 
     public StyleProperty currentProperty => this.m_CurrentProperty;
 
@@ -95,7 +95,7 @@ namespace UnityEngine.UIElements.StyleSheets
       return this.m_CurrentProperty;
     }
 
-    public void AddImport(FakeStyleSheet.ImportStruct importStruct) => this.m_Imports.Add(importStruct);
+    public void AddImport(StyleSheet.ImportStruct importStruct) => this.m_Imports.Add(importStruct);
 
     public void AddValue(float value) => this.RegisterValue<float>(this.m_Floats, StyleValueType.Float, value);
 
@@ -143,6 +143,7 @@ namespace UnityEngine.UIElements.StyleSheets
       return this.m_Rules.Count - 1;
     }
 
+    
     public void BuildTo(StyleSheet writeTo)
     {
       Debug.Assert(this.m_BuilderState == StyleSheetBuilder.BuilderState.Init);

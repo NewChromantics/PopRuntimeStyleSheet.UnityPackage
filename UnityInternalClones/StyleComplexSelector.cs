@@ -14,8 +14,8 @@ namespace UnityEngine.UIElements
   [Serializable]
   internal class StyleComplexSelector : ISerializationCallbackReceiver
   {
-    //[NonSerialized]
-    //public Hashes ancestorHashes;
+    [NonSerialized]
+    public Hashes ancestorHashes;
     [SerializeField]
     private int m_Specificity;
     [NonSerialized]

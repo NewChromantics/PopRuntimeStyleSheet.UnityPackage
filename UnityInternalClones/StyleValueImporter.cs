@@ -115,9 +115,8 @@ namespace UnityEditor.UIElements.StyleSheets
         return new List<UnityEngine.Object>();
 
 
-      //UnityEngine.UIElements.StyleSheet styleSheet = UnityEngine.Object.Instantiate<UnityEngine.UIElements.StyleSheet>(original1);
-      var styleSheet = FakeStyleSheet.Instantiate(original1);
-
+      UnityEngine.UIElements.StyleSheet styleSheet = UnityEngine.Object.Instantiate<UnityEngine.UIElements.StyleSheet>(original1);
+      
       Dictionary<UnityEngine.Object, List<UnityEngine.Object>> dictionary1 = new Dictionary<UnityEngine.Object, List<UnityEngine.Object>>();
       List<UnityEngine.Object> objectList1 = new List<UnityEngine.Object>();
       List<ScalableImage> scalableImageList1 = new List<ScalableImage>();
@@ -158,7 +157,7 @@ namespace UnityEditor.UIElements.StyleSheets
           }
         }
         // ISSUE: explicit non-virtual call
-        if (objectList3 != null && __nonvirtual (objectList3.Count) > 0)
+        if (objectList3 != null && /*__nonvirtual */(objectList3.Count) > 0)
         {
           List<ScalableImage> scalableImageList2 = scalableImageList1;
           scalableImage1 = new ScalableImage();
@@ -268,7 +267,8 @@ namespace UnityEditor.UIElements.StyleSheets
           source.Add(@object);
       }
       List<UnityEngine.Object> list = source.ToList<UnityEngine.Object>();
-      list.Insert(0, (UnityEngine.Object) styleSheet);
+      throw new NotImplementedException();
+      //list.Insert(0, (UnityEngine.Object) styleSheet);
       return list;
     }
 
