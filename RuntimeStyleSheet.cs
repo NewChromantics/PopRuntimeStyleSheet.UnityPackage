@@ -1,8 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using ExCSS;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.UIElements.StyleSheets;
+using StyleSheet = UnityEngine.UIElements.StyleSheet;
 
 
 static public class RuntimeStyleSheet
@@ -21,7 +26,7 @@ static public class RuntimeStyleSheet
         //  todo: cache this!
         //  todo: find out which nulls break uitoolkit and dont let the code proceed
         //          (although fields are private... so may have to check json :/)
-        var BaseStyle = Resources.Load(EmptyStyleSheetResourceFilename) as StyleSheet;
+        var BaseStyle = Resources.Load(EmptyStyleSheetResourceFilename) as UnityEngine.UIElements.StyleSheet;
         if ( BaseStyle == null )
         {
             Debug.Log($"Failed to find empty style sheet resource");
@@ -29,13 +34,17 @@ static public class RuntimeStyleSheet
         }
         var AsJson = JsonUtility.ToJson(BaseStyle);
         var AsFake = JsonUtility.FromJson<FakeStyleSheet>(AsJson);
+
+        var LoadedSpreadSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyle);
         
         //  modify fake sheet here
-        AsFake = ParseCss(Css);
+        var Importer = new StyleSheetImporterImpl();
+        Importer.Import(LoadedSpreadSheet,Css);
+        //AsFake = ParseCss(Css);
         
         //  load fake stylesheet as a stylesheet and write over the base one
         var FakeJson = JsonUtility.ToJson(AsFake);
-        var LoadedSpreadSheet = ScriptableObject.Instantiate<StyleSheet>(BaseStyle);
+        //var LoadedSpreadSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyle);
         //var LoadedSpreadSheet = CustomStyle; 
         JsonUtility.FromJsonOverwrite(FakeJson,LoadedSpreadSheet);
         
@@ -154,7 +163,7 @@ public struct StyleSelector
     public SelectorPart[]   m_Parts;
     public int  m_PreviousRelationship;
 }
-
+/*
 [Serializable]
 public struct StyleComplexSelector
 {
@@ -162,16 +171,24 @@ public struct StyleComplexSelector
     public StyleSelector[] m_Selectors;
     public int ruleIndex;
 }
-
+*/
 [Serializable]
 internal struct ScalableImage
 {
 }
 
 
+
+
 [Serializable]
 internal struct FakeStyleSheet
 {
+    static public FakeStyleSheet Instantiate(StyleSheet Original)
+    {
+        throw new NotImplementedException();
+    } 
+
+
     public bool m_ImportedWithErrors;
     public bool m_ImportedWithWarnings;
     public StyleRule[] m_Rules;
@@ -185,4 +202,12 @@ internal struct FakeStyleSheet
     public List<FakeStyleSheet> m_FlattenedImportedStyleSheets;
     public ScalableImage[] scalableImages;
     public int m_ContentHash;
+    
+    
+    [Serializable]
+    public struct ImportStruct
+    {
+      public FakeStyleSheet styleSheet;
+      public string[] mediaQueries;
+    }
 }
