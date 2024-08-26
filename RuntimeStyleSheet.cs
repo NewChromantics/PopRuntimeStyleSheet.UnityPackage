@@ -35,20 +35,25 @@ static public class RuntimeStyleSheetLib
         //var AsJson = JsonUtility.ToJson(BaseStyle);
         //var AsFake = JsonUtility.FromJson<FakeStyleSheet>(AsJson);
 
-        var LoadedSpreadSheet = ScriptableObject.CreateInstance<RuntimeStyleSheet.UIElements.StyleSheet>();
-        
-        //  modify fake sheet here
-        var Importer = new StyleSheetImporterImpl();
-        Importer.Import(LoadedSpreadSheet,Css);
-        //AsFake = ParseCss(Css);
-        
-        var ConvertedSpreadSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyleReal);
-        
-        //  load fake stylesheet as a stylesheet and write over the base one
-        var FakeJson = JsonUtility.ToJson(LoadedSpreadSheet);
-        JsonUtility.FromJsonOverwrite(FakeJson,ConvertedSpreadSheet);
+        //  empty vars here break the real one later....
+        var FakeStyleSheet = ScriptableObject.CreateInstance<RuntimeStyleSheet.UIElements.StyleSheet>();
+        //  ...so fill with base values
+        {
+            var RealJson = JsonUtility.ToJson(BaseStyleReal);
+            JsonUtility.FromJsonOverwrite(RealJson,FakeStyleSheet);
+        }
 
-        return ConvertedSpreadSheet;
+        //  modify the fake style sheet
+        var Importer = new StyleSheetImporterImpl();
+        Importer.Import(FakeStyleSheet,Css);
+        Importer.importErrors.ThrowErrors();
+
+        //  now write imported data over the real one        
+        var RealStyleSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyleReal);
+        var FakeJson = JsonUtility.ToJson(FakeStyleSheet);
+        JsonUtility.FromJsonOverwrite(FakeJson,RealStyleSheet);
+
+        return RealStyleSheet;
     }
     /*
     //  this should be mostly based on StyleSheetImporterImpl

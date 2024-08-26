@@ -1,1 +1,4 @@
-VisualElement {}
+
+.s5-button--primary
+{
+}

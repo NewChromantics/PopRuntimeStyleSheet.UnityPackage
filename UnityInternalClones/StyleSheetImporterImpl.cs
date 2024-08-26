@@ -138,9 +138,6 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
         {
           int count = styleSheet.ImportDirectives.Count;
           
-          //  gr: here we need to start using FakeStyleSheet
-          throw new NotImplementedException();
-          /*
           asset.imports = new RuntimeStyleSheet.UIElements.StyleSheet.ImportStruct[count];
           for (int index = 0; index < count; ++index)
           {
@@ -164,7 +161,10 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
               else
                 styleSheet1 = this.DeclareDependencyAndLoad(projectRelativePath) as RuntimeStyleSheet.UIElements.StyleSheet;
               if (!validationResponse.isLibraryAsset)
-                this.m_Context.DependsOnImportedAsset(projectRelativePath);
+              {
+                throw new NotImplementedException();
+                //this.m_Context.DependsOnImportedAsset(projectRelativePath);
+                }
             }
             asset.imports[index] = new RuntimeStyleSheet.UIElements.StyleSheet.ImportStruct()
             {
@@ -175,7 +175,6 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
           
           if (count > 0)
             asset.FlattenImportedStyleSheetsRecursive();
-            */
         }
         else
         {
@@ -204,8 +203,7 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
         return;
       string name = property.Name;
       string str = property.Term.ToString();
-      throw new NotImplementedException();
-      /*
+
       StyleValidationResult validationResult = this.m_Validator.ValidateProperty(name, str);
       if (!validationResult.success)
       {
@@ -214,7 +212,6 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
           message = message + " -> " + validationResult.hint;
         this.m_Errors.AddValidationWarning(message, property.Line);
       }
-      */
     }
 
     private void VisitSheet(ExCSS.StyleSheet styleSheet)

@@ -38,11 +38,24 @@ internal class StyleSheetImportErrors : IEnumerable<StyleSheetImportError>
   List<string> Errors = new();
   List<string> Warnings = new();
   
+  public void ThrowErrors()
+  {
+    if ( !hasErrors )
+      return;
+    var OverallError = String.Join(",",Errors);
+    throw new Exception($"CSS Import Errors: {OverallError}");
+  }
+  
   public void AddSyntaxError(string Error,int Line)
   {
     Errors.Add(Error);
   }
   public void AddValidationWarning(string Message,int Line)
+  {
+    Warnings.Add(Message);
+  }
+
+  public void AddSemanticWarning(StyleSheetImportErrorCode warning,string Message, int Line)
   {
     Warnings.Add(Message);
   }
@@ -69,54 +82,13 @@ internal class StyleSheetImportErrors : IEnumerable<StyleSheetImportError>
   }
 }
 
-internal struct StyleValidationResult
-{
-  public bool success => true;
-  public string message => "Validation Result String";
-}
 
 internal class StyleSheetImportError
 {
   public string assetPath;
 }
-/*
-struct StyleSelectorPart
-{
-}
-*/
+
 class UnityImporterContext
 {
   
 }
-
-/*
-internal class StyleValueImporter
-{
-}
-
-
-public struct StyleSheetBuilder
-{
-  public void BuildTo(RuntimeStyleSheet.UIElements.StyleSheet asset)
-  {
-    throw new NotImplementedException();
-  }
-  
-  public void BeginRule(int Line)
-  {
-  }
-
-  public void EndRule()
-  {
-  }
-
-  public void BeginProperty(string DeclarationName,int Line)
-  {
-  }
-  
-  public void EndProperty()
-  {
-  }
-  
-}
-*/
