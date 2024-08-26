@@ -1,15 +1,17 @@
 ﻿// Decompiled with JetBrains decompiler
-// Type: UnityEngine.UIElements.StyleSheets.StylePropertyUtil
-// Assembly: UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+// Type: RuntimeStyleSheet.UIElements.StyleSheets.StylePropertyUtil
+// Assembly: RuntimeStyleSheet.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 254D9B30-C554-4364-9CE1-F4826DF541B4
-// Assembly location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.dll
-// XML documentation location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.xml
+// Assembly location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/RuntimeStyleSheet.UIElementsModule.dll
+// XML documentation location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/RuntimeStyleSheet.UIElementsModule.xml
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.UIElements;
 
-namespace UnityEngine.UIElements.StyleSheets
+namespace RuntimeStyleSheet.UIElements.StyleSheets
 {
   internal static class StylePropertyUtil
   {
@@ -1467,7 +1469,7 @@ namespace UnityEngine.UIElements.StyleSheets
         case StylePropertyId.UnityFontDefinition:
           return FontDefinition.allowedAssetTypes;
         case StylePropertyId.Cursor:
-          return UnityEngine.UIElements.Cursor.allowedAssetTypes;
+          return RuntimeStyleSheet.UIElements.Cursor.allowedAssetTypes;
         case StylePropertyId.BackgroundImage:
           return Background.allowedAssetTypes;
         default:

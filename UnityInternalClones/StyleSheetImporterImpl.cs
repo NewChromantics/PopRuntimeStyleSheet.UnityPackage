@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.UIElements.StyleSheets;
+using RuntimeStyleSheet.UIElements;
+using RuntimeStyleSheet.UIElements.StyleSheets;
 using UnityEditor.UIElements.StyleSheets;//.StyleValueImporter
 
 using URIHelpers = UnityEditor.UIElements.StyleSheets.URIHelpers;
@@ -24,15 +24,16 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
     private static readonly List<string> s_StyleSheetProjectRelativeImportPaths = new List<string>();
 
  
-    bool disableValidation => false;
+    //bool disableValidation => false;
   
-    string assetPath => "Fake Asset";
-    StyleSheetImportErrors m_Errors;
+    //string assetPath => "Fake Asset";
+    StyleSheetImportErrors m_Errors = new();
+/*
     ExCSS.Parser m_Parser = new();
     UnityImporterContext m_Context = new();
     StyleSheetBuilder m_Builder;
     int m_CurrentLine = 0;
-
+*/
     public StyleSheetImporterImpl()
     {
     }
@@ -92,11 +93,11 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
       }
     }
 
-    protected virtual void OnImportSuccess(UnityEngine.UIElements.StyleSheet asset)
+    protected virtual void OnImportSuccess(RuntimeStyleSheet.UIElements.StyleSheet asset)
     {
     }
 
-    public void Import(UnityEngine.UIElements.StyleSheet asset, string contents)
+    public void Import(RuntimeStyleSheet.UIElements.StyleSheet asset, string contents)
     {
       ExCSS.StyleSheet styleSheet = this.m_Parser.Parse(contents);
       this.ImportParserStyleSheet(asset, styleSheet);
@@ -107,7 +108,7 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
       asset.contentHash = hash.GetHashCode();
     }
 
-    protected void ImportParserStyleSheet(UnityEngine.UIElements.StyleSheet asset, ExCSS.StyleSheet styleSheet)
+    protected void ImportParserStyleSheet(RuntimeStyleSheet.UIElements.StyleSheet asset, ExCSS.StyleSheet styleSheet)
     {
       this.m_Errors.assetPath = this.assetPath;
       if (styleSheet.Errors.Count > 0)
@@ -126,8 +127,7 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
         }
         catch (Exception ex)
         {
-          throw new NotImplementedException();
-          //this.m_Errors.AddInternalError(string.Format(StyleValueImporter.glossary.internalErrorWithStackTrace, (object) ex.Message, (object) ex.StackTrace), this.m_CurrentLine);
+          this.m_Errors.AddInternalError(string.Format(StyleValueImporter.glossary.internalErrorWithStackTrace, (object) ex.Message, (object) ex.StackTrace), this.m_CurrentLine);
         }
       }
       bool hasErrors = this.m_Errors.hasErrors;
@@ -141,7 +141,7 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
           //  gr: here we need to start using FakeStyleSheet
           throw new NotImplementedException();
           /*
-          asset.imports = new UnityEngine.UIElements.StyleSheet.ImportStruct[count];
+          asset.imports = new RuntimeStyleSheet.UIElements.StyleSheet.ImportStruct[count];
           for (int index = 0; index < count; ++index)
           {
             URIHelpers.URIValidationResponse validationResponse = URIHelpers.ValidateAssetURL(this.assetPath, styleSheet.ImportDirectives[index].Href);
@@ -150,7 +150,7 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
             string projectRelativePath = validationResponse.resolvedProjectRelativePath;
             if (validationResponse.hasWarningMessage)
               this.m_Errors.AddValidationWarning(validationResponse.warningMessage, this.m_CurrentLine);
-            UnityEngine.UIElements.StyleSheet styleSheet1 = (UnityEngine.UIElements.StyleSheet) null;
+            RuntimeStyleSheet.UIElements.StyleSheet styleSheet1 = (RuntimeStyleSheet.UIElements.StyleSheet) null;
             if (result != 0)
             {
               (StyleSheetImportErrorCode, string) tuple = StyleValueImporter.ConvertErrorCode(result);
@@ -158,15 +158,15 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
             }
             else
             {
-              styleSheet1 = validationResponse.resolvedQueryAsset as UnityEngine.UIElements.StyleSheet;
+              styleSheet1 = validationResponse.resolvedQueryAsset as RuntimeStyleSheet.UIElements.StyleSheet;
               if ((bool) (UnityEngine.Object) styleSheet1)
                 this.m_Context.DependsOnSourceAsset(projectRelativePath);
               else
-                styleSheet1 = this.DeclareDependencyAndLoad(projectRelativePath) as UnityEngine.UIElements.StyleSheet;
+                styleSheet1 = this.DeclareDependencyAndLoad(projectRelativePath) as RuntimeStyleSheet.UIElements.StyleSheet;
               if (!validationResponse.isLibraryAsset)
                 this.m_Context.DependsOnImportedAsset(projectRelativePath);
             }
-            asset.imports[index] = new UnityEngine.UIElements.StyleSheet.ImportStruct()
+            asset.imports[index] = new RuntimeStyleSheet.UIElements.StyleSheet.ImportStruct()
             {
               styleSheet = styleSheet1,
               mediaQueries = styleSheet.ImportDirectives[index].Media.ToArray<string>()
@@ -182,7 +182,7 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
         //  gr: here we need to start using FakeStyleSheet
           throw new NotImplementedException();
           /*
-          asset.imports = new UnityEngine.UIElements.StyleSheet.ImportStruct[0];
+          asset.imports = new RuntimeStyleSheet.UIElements.StyleSheet.ImportStruct[0];
           this.m_Errors.AddValidationWarning(StyleValueImporter.glossary.circularImport, -1);
           */
         }
@@ -190,11 +190,9 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
       }
       bool hasWarning = this.m_Errors.hasWarning;
       //  gr: here we need to start using FakeStyleSheet
-      throw new NotImplementedException();
-      /*
       asset.importedWithErrors = hasErrors;
       asset.importedWithWarnings = hasWarning;
-      */
+
       if (!(hasErrors | hasWarning))
         return;
       this.OnImportError(this.m_Errors);
@@ -313,8 +311,6 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
 
     private void VisitSimpleSelector(string selector)
     {
-    throw new NotImplementedException();
-    /*
       StyleSelectorPart[] parts;
       if (!this.CheckSimpleSelector(selector, out parts))
         return;
@@ -328,7 +324,6 @@ internal class StyleSheetImporterImpl : UnityEditor.UIElements.StyleSheets.Style
         using (this.m_Builder.BeginComplexSelector(selectorSpecificity))
           this.m_Builder.AddSimpleSelector(parts, StyleSelectorRelationship.None);
       }
-      */
     }
 
     private string ExtractSimpleSelector(BaseSelector selector)

@@ -1,13 +1,14 @@
 ﻿// Decompiled with JetBrains decompiler
-// Type: UnityEngine.UIElements.StyleSheets.StyleValidator
-// Assembly: UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+// Type: RuntimeStyleSheet.UIElements.StyleSheets.StyleValidator
+// Assembly: RuntimeStyleSheet.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 254D9B30-C554-4364-9CE1-F4826DF541B4
-// Assembly location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.dll
-// XML documentation location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.xml
+// Assembly location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/RuntimeStyleSheet.UIElementsModule.dll
+// XML documentation location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/RuntimeStyleSheet.UIElementsModule.xml
 
-using UnityEngine.UIElements.StyleSheets.Syntax;
+using RuntimeStyleSheet.UIElements.StyleSheets.Syntax;
+using UnityEngine;
 
-namespace UnityEngine.UIElements.StyleSheets
+namespace RuntimeStyleSheet.UIElements.StyleSheets
 {
   internal class StyleValidator
   {
@@ -38,7 +39,7 @@ namespace UnityEngine.UIElements.StyleSheets
           validationResult.message = validationResult.message + " (did you mean '" + closestPropertyName + "'?)";
         return validationResult;
       }
-      UnityEngine.UIElements.StyleSheets.Syntax.Expression exp = this.m_SyntaxParser.Parse(syntax);
+      RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp = this.m_SyntaxParser.Parse(syntax);
       if (exp == null)
       {
         validationResult.status = StyleValidationStatus.Error;

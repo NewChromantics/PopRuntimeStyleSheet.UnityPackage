@@ -1,14 +1,15 @@
 ﻿// Decompiled with JetBrains decompiler
-// Type: UnityEngine.UIElements.StyleSheets.StylePropertyValueMatcher
-// Assembly: UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+// Type: RuntimeStyleSheet.UIElements.StyleSheets.StylePropertyValueMatcher
+// Assembly: RuntimeStyleSheet.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 254D9B30-C554-4364-9CE1-F4826DF541B4
-// Assembly location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.dll
-// XML documentation location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.xml
+// Assembly location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/RuntimeStyleSheet.UIElementsModule.dll
+// XML documentation location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/RuntimeStyleSheet.UIElementsModule.xml
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace UnityEngine.UIElements.StyleSheets
+namespace RuntimeStyleSheet.UIElements.StyleSheets
 {
   internal class StylePropertyValueMatcher : BaseStyleMatcher
   {
@@ -22,7 +23,7 @@ namespace UnityEngine.UIElements.StyleSheets
 
     public override bool isCurrentComma => this.hasCurrent && this.m_Values[this.currentIndex].handle.valueType == StyleValueType.CommaSeparator;
 
-    public MatchResult Match(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp, List<StylePropertyValue> values)
+    public MatchResult Match(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp, List<StylePropertyValue> values)
     {
       MatchResult matchResult = new MatchResult()
       {

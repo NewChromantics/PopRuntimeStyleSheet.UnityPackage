@@ -12,8 +12,8 @@ using System.IO;
 using System.Linq;
 using UnityEditor.AssetImporters;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.UIElements.StyleSheets;
+using RuntimeStyleSheet.UIElements;
+using RuntimeStyleSheet.UIElements.StyleSheets;
 
 namespace UnityEditor.UIElements.StyleSheets
 {
@@ -110,12 +110,12 @@ namespace UnityEditor.UIElements.StyleSheets
 
     internal static List<UnityEngine.Object> DeepCopyAsset(UnityEngine.Object original)
     {
-      UnityEngine.UIElements.StyleSheet original1 = original as UnityEngine.UIElements.StyleSheet;
+      RuntimeStyleSheet.UIElements.StyleSheet original1 = original as RuntimeStyleSheet.UIElements.StyleSheet;
       if ((UnityEngine.Object) original1 == (UnityEngine.Object) null)
         return new List<UnityEngine.Object>();
 
 
-      UnityEngine.UIElements.StyleSheet styleSheet = UnityEngine.Object.Instantiate<UnityEngine.UIElements.StyleSheet>(original1);
+      RuntimeStyleSheet.UIElements.StyleSheet styleSheet = UnityEngine.Object.Instantiate<RuntimeStyleSheet.UIElements.StyleSheet>(original1);
       
       Dictionary<UnityEngine.Object, List<UnityEngine.Object>> dictionary1 = new Dictionary<UnityEngine.Object, List<UnityEngine.Object>>();
       List<UnityEngine.Object> objectList1 = new List<UnityEngine.Object>();
@@ -169,7 +169,7 @@ namespace UnityEditor.UIElements.StyleSheets
       }
       Dictionary<string, StyleValueImporter.StoredAsset> dictionary2 = new Dictionary<string, StyleValueImporter.StoredAsset>();
       Dictionary<string, StyleValueImporter.StoredAsset> dictionary3 = new Dictionary<string, StyleValueImporter.StoredAsset>();
-      foreach (UnityEngine.UIElements.StyleRule rule in styleSheet.rules)
+      foreach (RuntimeStyleSheet.UIElements.StyleRule rule in styleSheet.rules)
       {
         foreach (StyleProperty property in rule.properties)
         {

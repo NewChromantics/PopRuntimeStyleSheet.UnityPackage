@@ -1,15 +1,16 @@
 ﻿// Decompiled with JetBrains decompiler
-// Type: UnityEngine.UIElements.StyleSheets.BaseStyleMatcher
-// Assembly: UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+// Type: RuntimeStyleSheet.UIElements.StyleSheets.BaseStyleMatcher
+// Assembly: RuntimeStyleSheet.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: 254D9B30-C554-4364-9CE1-F4826DF541B4
-// Assembly location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.dll
-// XML documentation location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.xml
+// Assembly location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/RuntimeStyleSheet.UIElementsModule.dll
+// XML documentation location: /Applications/2022.3.14f1/Unity.app/Contents/Managed/UnityEngine/RuntimeStyleSheet.UIElementsModule.xml
 
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine.UIElements.StyleSheets.Syntax;
+using RuntimeStyleSheet.UIElements.StyleSheets.Syntax;
+using UnityEngine;
 
-namespace UnityEngine.UIElements.StyleSheets
+namespace RuntimeStyleSheet.UIElements.StyleSheets
 {
   internal abstract class BaseStyleMatcher
   {
@@ -78,7 +79,7 @@ namespace UnityEngine.UIElements.StyleSheets
 
     public void DropContext() => this.m_ContextStack.Pop();
 
-    protected bool Match(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp)
+    protected bool Match(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp)
     {
       bool flag;
       if (exp.multiplier.type == ExpressionMultiplierType.None)
@@ -93,7 +94,7 @@ namespace UnityEngine.UIElements.StyleSheets
       return flag;
     }
 
-    private bool MatchExpression(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp)
+    private bool MatchExpression(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp)
     {
       bool flag = false;
       if (exp.type == ExpressionType.Combinator)
@@ -119,7 +120,7 @@ namespace UnityEngine.UIElements.StyleSheets
       return flag;
     }
 
-    private bool MatchExpressionWithMultiplier(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp)
+    private bool MatchExpressionWithMultiplier(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp)
     {
       bool flag1 = exp.multiplier.type == ExpressionMultiplierType.OneOrMoreComma;
       bool flag2 = true;
@@ -147,13 +148,13 @@ namespace UnityEngine.UIElements.StyleSheets
       return flag3;
     }
 
-    private bool MatchGroup(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp)
+    private bool MatchGroup(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp)
     {
       Debug.Assert(exp.subExpressions.Length == 1, "Group has invalid number of sub expressions");
       return this.Match(exp.subExpressions[0]);
     }
 
-    private bool MatchCombinator(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp)
+    private bool MatchCombinator(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp)
     {
       this.SaveContext();
       bool flag = false;
@@ -182,7 +183,7 @@ namespace UnityEngine.UIElements.StyleSheets
       return flag;
     }
 
-    private bool MatchOr(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp)
+    private bool MatchOr(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp)
     {
       BaseStyleMatcher.MatchContext matchContext = new BaseStyleMatcher.MatchContext();
       int num1 = 0;
@@ -205,11 +206,11 @@ namespace UnityEngine.UIElements.StyleSheets
       return true;
     }
 
-    private bool MatchOrOr(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp) => this.MatchMany(exp) > 0;
+    private bool MatchOrOr(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp) => this.MatchMany(exp) > 0;
 
-    private bool MatchAndAnd(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp) => this.MatchMany(exp) == exp.subExpressions.Length;
+    private bool MatchAndAnd(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp) => this.MatchMany(exp) == exp.subExpressions.Length;
 
-    private unsafe int MatchMany(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp)
+    private unsafe int MatchMany(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp)
     {
       BaseStyleMatcher.MatchContext matchContext = new BaseStyleMatcher.MatchContext();
       int num1 = 0;
@@ -239,7 +240,7 @@ namespace UnityEngine.UIElements.StyleSheets
       return num1;
     }
 
-    private unsafe int MatchManyByOrder(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp, int* matchOrder)
+    private unsafe int MatchManyByOrder(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp, int* matchOrder)
     {
       int length = exp.subExpressions.Length;
       int* numPtr = stackalloc int[length];
@@ -278,7 +279,7 @@ namespace UnityEngine.UIElements.StyleSheets
       return index1 + num;
     }
 
-    private bool MatchJuxtaposition(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp)
+    private bool MatchJuxtaposition(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp)
     {
       bool flag = true;
       for (int index = 0; flag && index < exp.subExpressions.Length; ++index)
@@ -286,7 +287,7 @@ namespace UnityEngine.UIElements.StyleSheets
       return flag;
     }
 
-    private bool MatchDataType(UnityEngine.UIElements.StyleSheets.Syntax.Expression exp)
+    private bool MatchDataType(RuntimeStyleSheet.UIElements.StyleSheets.Syntax.Expression exp)
     {
       bool flag = false;
       if (this.hasCurrent)

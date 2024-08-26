@@ -6,8 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.UIElements.StyleSheets;
+using RuntimeStyleSheet.UIElements;
+using RuntimeStyleSheet.UIElements.StyleSheets;
 
 using URIHelpers = UnityEditor.UIElements.StyleSheets.URIHelpers;
 using URIValidationResult = UnityEditor.UIElements.StyleSheets.URIValidationResult;
@@ -29,22 +29,34 @@ InvalidVarFunction,
 UnsupportedUnit,
 UnsupportedTerm,
 }
-struct StyleSheetImportErrors : IEnumerable<StyleSheetImportError>
+internal class StyleSheetImportErrors : IEnumerable<StyleSheetImportError>
 {
   public string assetPath;
-  public bool hasErrors => false;
-  public bool hasWarning => false;
+  public bool hasErrors => Errors.Count>0;
+  public bool hasWarning => Warnings.Count>0;
+  
+  List<string> Errors = new();
+  List<string> Warnings = new();
   
   public void AddSyntaxError(string Error,int Line)
   {
+    Errors.Add(Error);
   }
   public void AddValidationWarning(string Message,int Line)
   {
+    Warnings.Add(Message);
   }
 
   public void AddSemanticError(StyleSheetImportErrorCode error,string Error,int Line)
   {
+    Errors.Add(Error);
   }
+  
+  public void AddInternalError(string Error,int Line)
+  {
+    Errors.Add(Error);
+  }
+  
 
   public IEnumerator<StyleSheetImportError> GetEnumerator()
   {
@@ -85,7 +97,7 @@ internal class StyleValueImporter
 
 public struct StyleSheetBuilder
 {
-  public void BuildTo(UnityEngine.UIElements.StyleSheet asset)
+  public void BuildTo(RuntimeStyleSheet.UIElements.StyleSheet asset)
   {
     throw new NotImplementedException();
   }

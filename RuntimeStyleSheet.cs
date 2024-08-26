@@ -5,11 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.UIElements.StyleSheets;
 
 
-static public class RuntimeStyleSheet
+static public class RuntimeStyleSheetLib
 {
     //const string EmptyStyleSheetResourceFilename = "Packages/com.condense.runtimestylesheet/Resources/EmptyStyleSheet";
     const string EmptyStyleSheetResourceFilename = "EmptyStyleSheet";
@@ -25,8 +23,10 @@ static public class RuntimeStyleSheet
         //  todo: cache this!
         //  todo: find out which nulls break uitoolkit and dont let the code proceed
         //          (although fields are private... so may have to check json :/)
-        var BaseStyle = Resources.Load(EmptyStyleSheetResourceFilename) as UnityEngine.UIElements.StyleSheet;
-        if ( BaseStyle == null )
+        
+        var BaseStyleReal = Resources.Load(EmptyStyleSheetResourceFilename) as UnityEngine.UIElements.StyleSheet;
+        var BaseStyle = Resources.Load(EmptyStyleSheetResourceFilename) as RuntimeStyleSheet.UIElements.StyleSheet;
+        if ( BaseStyleReal == null )
         {
             Debug.Log($"Failed to find empty style sheet resource");
             return null;
@@ -35,20 +35,20 @@ static public class RuntimeStyleSheet
         //var AsJson = JsonUtility.ToJson(BaseStyle);
         //var AsFake = JsonUtility.FromJson<FakeStyleSheet>(AsJson);
 
-        var LoadedSpreadSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyle);
+        var LoadedSpreadSheet = ScriptableObject.CreateInstance<RuntimeStyleSheet.UIElements.StyleSheet>();
         
         //  modify fake sheet here
         var Importer = new StyleSheetImporterImpl();
         Importer.Import(LoadedSpreadSheet,Css);
         //AsFake = ParseCss(Css);
-        /*
+        
+        var ConvertedSpreadSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyleReal);
+        
         //  load fake stylesheet as a stylesheet and write over the base one
-        var FakeJson = JsonUtility.ToJson(AsFake);
-        //var LoadedSpreadSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyle);
-        //var LoadedSpreadSheet = CustomStyle; 
-        JsonUtility.FromJsonOverwrite(FakeJson,LoadedSpreadSheet);
-        */
-        return LoadedSpreadSheet;
+        var FakeJson = JsonUtility.ToJson(LoadedSpreadSheet);
+        JsonUtility.FromJsonOverwrite(FakeJson,ConvertedSpreadSheet);
+
+        return ConvertedSpreadSheet;
     }
     /*
     //  this should be mostly based on StyleSheetImporterImpl
