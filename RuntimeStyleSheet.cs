@@ -51,9 +51,14 @@ static public class RuntimeStyleSheetLib
         //  now write imported data over the real one        
         var RealStyleSheet = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(BaseStyleReal);
         var FakeJson = JsonUtility.ToJson(FakeStyleSheet);
-        JsonUtility.FromJsonOverwrite(FakeJson,RealStyleSheet);
 
-        return RealStyleSheet;
+        //  orderered class selectors isnt written
+        JsonUtility.FromJsonOverwrite(FakeJson,RealStyleSheet);
+        
+        //  need to trigger a final SetupReferences()
+        var RealStyleSheetEnabled = ScriptableObject.Instantiate<UnityEngine.UIElements.StyleSheet>(RealStyleSheet);
+
+        return RealStyleSheetEnabled;
     }
     /*
     //  this should be mostly based on StyleSheetImporterImpl
