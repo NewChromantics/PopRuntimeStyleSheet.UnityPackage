@@ -8,8 +8,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UIElements.StyleSheets;
 
-using StyleSheet = UnityEngine.UIElements.StyleSheet;
-using StyleRule = UnityEngine.UIElements.StyleRule;
 
 static public class RuntimeStyleSheet
 {
@@ -52,7 +50,7 @@ static public class RuntimeStyleSheet
         */
         return LoadedSpreadSheet;
     }
-    
+    /*
     //  this should be mostly based on StyleSheetImporterImpl
     static StyleSheet ParseCss(string Css)
     {
@@ -69,7 +67,6 @@ static public class RuntimeStyleSheet
     {
         foreach (ExCSS.StyleRule styleRule in (IEnumerable<ExCSS.StyleRule>) styleSheet.StyleRules)
         {
-            /*
             //m_Builder.BeginRule(styleRule.Line);
             //m_CurrentLine = styleRule.Line;
             VisitBaseSelector(styleRule.Selector);
@@ -82,9 +79,9 @@ static public class RuntimeStyleSheet
                 //m_Builder.EndProperty();
             }
             m_Builder.EndRule();
-            */
         }
     }
+    */
 }
 
 /*

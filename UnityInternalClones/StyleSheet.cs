@@ -17,7 +17,7 @@ namespace UnityEngine.UIElements
   /// </para>
   ///      </summary>
   [Serializable]
-  public class StyleSheet : ScriptableObject
+  internal class StyleSheet : ScriptableObject
   {
     [SerializeField]
     private bool m_ImportedWithErrors;
